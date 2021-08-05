@@ -104,3 +104,5 @@ class CallbackModule(CallbackBase):
         for_logs =  CallbackModule.form_extra_vars(self, extras='', executi=execution) + ' task name: ' + task_name + ' module name: ' + module_name + ' '  + args + ' loops: ' + loops
         ex_tasks = '{0} {1} ANS_PLAYBOOK: {2}[{3}]: {4}'.format(time, hostname, username, ppid, for_logs)
         CallbackModule.send_to_scs(self, mess=ex_tasks)
+
+        
