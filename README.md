@@ -4,7 +4,6 @@ Works with ansible versions **2.8+**.
 The idea behind this is getting all the interesting information from ansible's **context.CLIARGS** dictionary and sending it to a remote log collector.
 
 When a playbook is executed three strings are formed:
-
 _ANS_HOSTS:_ contains all inventory hosts that returned **ok** or **changed** in a task.
 _ANS_EXTRAVARS:_ contains all extra variables that were passed to **ansible-playbook**.
 _ANS_PLAYBOOK:_ contains all executed tasks that were started with their additional variables.
