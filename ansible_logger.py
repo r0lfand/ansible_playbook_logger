@@ -23,7 +23,7 @@ class CallbackModule(CallbackBase):
     
     CALLBACK_VERSION = 2.0
     CALLBACK_TYPE = 'aggregate'
-    CALLBACK_NAME = 'scs_log_callback'
+    CALLBACK_NAME = 'log_callback'
 
 
     def __init__(self, display=None):
@@ -62,7 +62,7 @@ class CallbackModule(CallbackBase):
         return res
 
 
-    def send_to_scs(self, mess):
+    def send_to_collector(self, mess):
         sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
         sock.sendto(mess.encode('utf-8'), (dest_addr, dest_port))	
         sock.close()
@@ -77,7 +77,7 @@ class CallbackModule(CallbackBase):
     def v2_playbook_on_stats(self, stats):
         res = ''.join(res_hosts).replace('\n', ' ')
         inv = '{0} {1} ANS_HOSTS: {2}[{3}]: {4}'.format(time, hostname, username, ppid, res)
-        CallbackModule.send_to_scs(self, mess=inv)
+        CallbackModule.send_to_collector(self, mess=inv)
     
 
     def v2_playbook_on_start(self, playbook):
@@ -89,7 +89,7 @@ class CallbackModule(CallbackBase):
         check_ex = CallbackModule.form_extra_vars(self, extras=extravars, executi=execution)
 
         extras = '{0} {1} ANS_EXTRAVARS: {2}[{3}]: {4}'.format(time, hostname, username, ppid, check_ex)
-        CallbackModule.send_to_scs(self, mess=extras)
+        CallbackModule.send_to_collector(self, mess=extras)
 
     
     def v2_playbook_on_task_start(self, task, is_conditional):
@@ -103,5 +103,5 @@ class CallbackModule(CallbackBase):
         args = u' %s' % args
         for_logs =  CallbackModule.form_extra_vars(self, extras='', executi=execution) + ' task name: ' + task_name + ' module name: ' + module_name + ' '  + args + ' loops: ' + loops
         ex_tasks = '{0} {1} ANS_PLAYBOOK: {2}[{3}]: {4}'.format(time, hostname, username, ppid, for_logs)
-        CallbackModule.send_to_scs(self, mess=ex_tasks)
+        CallbackModule.send_to_collector(self, mess=ex_tasks)
  
